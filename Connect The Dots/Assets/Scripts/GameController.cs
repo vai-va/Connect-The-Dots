@@ -19,9 +19,11 @@ public class LevelDataWrapper
 public class GameController : MonoBehaviour
 {
     public GameObject buttonPrefab;
-    public TextMeshProUGUI buttonTextPrefab;
     public Canvas canvas;
     private LevelDataWrapper levelDataWrapper;
+
+    // public accessor for other scripts to know the current expected number
+    public int CurrentExpectedNumber { get; private set; } = 1;
 
     void Start()
     {
@@ -52,6 +54,8 @@ public class GameController : MonoBehaviour
         float screenWidth = Screen.width / scaleFactor;
         float screenHeight = Screen.height / scaleFactor;
 
+        CurrentExpectedNumber = 1;
+
         for (int i = 0; i < levelData.level_data.Length; i += 2)
         {
             // Create a new button object
@@ -62,14 +66,17 @@ public class GameController : MonoBehaviour
             float y = screenHeight - float.Parse(levelData.level_data[i + 1]) / 1000 * screenHeight; // Y inversion for Unity's UI
             newButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, -y); // Negated Y for Unity's UI system
 
-            // Set the button number
-            TextMeshProUGUI buttonText = Instantiate(buttonTextPrefab);
-            buttonText.transform.localScale = Vector3.one;
-            buttonText.transform.localPosition = Vector3.zero;
-            buttonText.transform.localRotation = Quaternion.identity;
-            buttonText.transform.SetParent(newButton.transform, false);
-            buttonText.text = (i / 2 + 1).ToString();
-
+            // Assign button script and set the expected number
+            ButtonController buttonController = newButton.GetComponent<ButtonController>();
+            buttonController.SetNumber(i / 2 + 1);
+            buttonController.SetGameController(this);
         }
     }
+
+    public void ButtonClickedCorrectly()
+    {
+        // increment the expected number when a button is clicked in the correct order
+        CurrentExpectedNumber++;
+    }
 }
+
