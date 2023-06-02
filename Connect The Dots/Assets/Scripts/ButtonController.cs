@@ -39,7 +39,7 @@ public class ButtonController : MonoBehaviour
             buttonImage.sprite = clickedButtonSprite;
             StartCoroutine(FadeText());
 
-            gameController.ButtonClickedCorrectly();
+            gameController.ButtonClickedCorrectly(this);
         }
     }
 
