@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.IO;
 
 [System.Serializable]
 public class LevelData
@@ -19,7 +18,7 @@ public class LevelDataWrapper
 
 public class GameController : MonoBehaviour
 {
-    public GameObject buttonPrefab; 
+    public GameObject buttonPrefab;
     public TextMeshProUGUI buttonTextPrefab;
     public Canvas canvas;
     private LevelDataWrapper levelDataWrapper;
@@ -27,16 +26,16 @@ public class GameController : MonoBehaviour
     void Start()
     {
         LoadLevelData();
-        SetupLevel(2); // To set up the first level, for instance
+        SetupLevel(3); // To set up the first level, for instance
     }
 
     void LoadLevelData()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "level_data.json");
+        TextAsset levelDataJson = Resources.Load<TextAsset>("level_data");
 
-        if (File.Exists(filePath))
+        if (levelDataJson != null)
         {
-            string jsonData = File.ReadAllText(filePath);
+            string jsonData = levelDataJson.text;
             levelDataWrapper = JsonUtility.FromJson<LevelDataWrapper>(jsonData);
         }
         else
@@ -48,8 +47,10 @@ public class GameController : MonoBehaviour
     void SetupLevel(int levelIndex)
     {
         LevelData levelData = levelDataWrapper.levels[levelIndex];
-        float canvasWidth = canvas.GetComponent<RectTransform>().rect.width;
-        float canvasHeight = canvas.GetComponent<RectTransform>().rect.height;
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        float scaleFactor = canvas.scaleFactor;
+        float screenWidth = Screen.width / scaleFactor;
+        float screenHeight = Screen.height / scaleFactor;
 
         for (int i = 0; i < levelData.level_data.Length; i += 2)
         {
@@ -57,14 +58,13 @@ public class GameController : MonoBehaviour
             GameObject newButton = Instantiate(buttonPrefab, canvas.transform);
 
             // Set its position
-            float x = float.Parse(levelData.level_data[i]) / 1000 * canvasWidth;
-            float y = 1 * float.Parse(levelData.level_data[i + 1]) / 1000 * canvasHeight - canvasHeight; // Y inversion for Unity's UI
-            newButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
+            float x = float.Parse(levelData.level_data[i]) / 1000 * screenWidth;
+            float y = screenHeight - float.Parse(levelData.level_data[i + 1]) / 1000 * screenHeight; // Y inversion for Unity's UI
+            newButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, -y); // Negated Y for Unity's UI system
 
             // Set the button number
             TextMeshProUGUI buttonText = Instantiate(buttonTextPrefab, newButton.transform);
             buttonText.text = (i / 2 + 1).ToString();
         }
     }
-
 }
