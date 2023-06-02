@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         LoadLevelData();
-        SetupLevel(3); // To set up the first level, for instance
+        SetupLevel(2); // To set up the first level, for instance
     }
 
     void LoadLevelData()
@@ -63,8 +63,13 @@ public class GameController : MonoBehaviour
             newButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, -y); // Negated Y for Unity's UI system
 
             // Set the button number
-            TextMeshProUGUI buttonText = Instantiate(buttonTextPrefab, newButton.transform);
+            TextMeshProUGUI buttonText = Instantiate(buttonTextPrefab);
+            buttonText.transform.localScale = Vector3.one;
+            buttonText.transform.localPosition = Vector3.zero;
+            buttonText.transform.localRotation = Quaternion.identity;
+            buttonText.transform.SetParent(newButton.transform, false);
             buttonText.text = (i / 2 + 1).ToString();
+
         }
     }
 }
