@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 56.4, y: -16.7}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 28.818012, y: -12.1799}
+  m_SizeDelta: {x: 75.0423, y: 29.5219}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7839788787017432370
 CanvasRenderer:
@@ -68,15 +68,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2b90652f1ac8db2459a1d36570feb118, type: 2}
+  m_sharedMaterial: {fileID: 6022616129820199571, guid: 2b90652f1ac8db2459a1d36570feb118, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -93,10 +93,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 21.8
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 2677108743582162319}
   - component: {fileID: 7638440158778230378}
   - component: {fileID: 9091155351394120219}
+  - component: {fileID: 1504834629800991897}
   m_Layer: 5
   m_Name: ButtonPrefab
   m_TagString: Untagged
@@ -173,8 +174,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 175, y: -76}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 24.70221, y: -76}
+  m_SizeDelta: {x: 31.3598, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &599122160393379984
 CanvasRenderer:
@@ -275,3 +276,20 @@ MonoBehaviour:
   buttonText: {fileID: 3300847315143004631}
   originalButtonSprite: {fileID: 21300000, guid: e23bcf4fb973a3248bc4ddcd226a8075, type: 3}
   clickedButtonSprite: {fileID: 21300000, guid: f9fe1623eac0e224490a2d721a1c3e26, type: 3}
+  fadeDuration: 1
+--- !u!58 &1504834629800991897
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9120326902846162731}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.4587857}
+  serializedVersion: 2
+  m_Radius: 13.045596

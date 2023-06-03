@@ -15,6 +15,7 @@ public class ButtonController : MonoBehaviour
     private int number;
     private GameController gameController;
 
+
     public void SetNumber(int number)
     {
         this.number = number;
@@ -30,6 +31,7 @@ public class ButtonController : MonoBehaviour
     {
         button.onClick.AddListener(HandleClick);
         buttonImage.sprite = originalButtonSprite;
+        buttonText.raycastTarget = false; // Add this line
     }
 
     void HandleClick()
@@ -47,7 +49,7 @@ public class ButtonController : MonoBehaviour
     {
         for (float t = 0.01f; t < fadeDuration; t += Time.deltaTime)
         {
-            buttonText.color = new Color(1, 1, 1, Mathf.Lerp(1, 0, t / fadeDuration));
+            buttonText.color = new Color(0, 0, 0, Mathf.Lerp(1, 0, t / fadeDuration));
             yield return null;
         }
     }
