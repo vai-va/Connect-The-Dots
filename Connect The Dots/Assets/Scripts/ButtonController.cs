@@ -53,4 +53,11 @@ public class ButtonController : MonoBehaviour
             yield return null;
         }
     }
+
+
+    public void MoveToBack()
+    {
+        // Move the button to the beginning of the hierarchy so it will render behind other buttons
+        transform.SetSiblingIndex(0);
+    }
 }

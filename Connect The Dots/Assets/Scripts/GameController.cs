@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 [System.Serializable]
 public class LevelData
 {
@@ -24,11 +25,13 @@ public class GameController : MonoBehaviour
 
     private ButtonController firstClickedButton;
     private ButtonController lastClickedButton;
-    private int levelIndex = 3;     // specify which level to set up
+    private int levelIndex;     // specify which level to set up
 
     private Queue<IEnumerator> lineDrawQueue = new Queue<IEnumerator>();
     private bool isLineBeingDrawn = false;
     public GameObject linePrefab;
+
+    public LevelCompleteScreen LevelCompleteScreen;
 
 
     // public accessor for other scripts to know the current expected number
@@ -36,6 +39,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        levelIndex = LevelSelector.selectedLevel-1;
         LoadLevelData();
         SetupLevel(); // To set up the first level, for instance
     }
@@ -117,8 +121,10 @@ public class GameController : MonoBehaviour
             lineDrawQueue.Enqueue(DrawLineBetweenButtons(buttonController, firstClickedButton));
         }
 
+        buttonController.MoveToBack();
         // Remember this button as the last clicked button.
         lastClickedButton = buttonController;
+
     }
 
 
@@ -169,9 +175,18 @@ public class GameController : MonoBehaviour
         {
             // If there are no more lines to be drawn, set the flag to false.
             isLineBeingDrawn = false;
+
+            // If we just drew the last line (from last to first button), trigger the Level Complete screen
+            if (buttonA == lastClickedButton && buttonB == firstClickedButton)
+            {
+                LevelComplete();
+            }
         }
     }
 
 
-
+    public void LevelComplete()
+    {
+        LevelCompleteScreen.gameObject.SetActive(true);
+    }
 }
