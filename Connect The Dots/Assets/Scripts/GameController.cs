@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Newtonsoft.Json.Linq;
 
-
+// LevelData class holds data for a single level.
 [System.Serializable]
 public class LevelData
 {
     public string[] level_data;
 }
 
+// LevelDataWrapper class holds a list of LevelData objects.
 [System.Serializable]
 public class LevelDataWrapper
 {
@@ -20,28 +22,30 @@ public class LevelDataWrapper
 public class GameController : MonoBehaviour
 {
     public GameObject buttonPrefab;
-    public Canvas canvas;
-    private LevelDataWrapper levelDataWrapper;
+    public Canvas canvas;    // The game's main canvas.
+    private LevelDataWrapper levelDataWrapper;   // Wrapper for level data objects.
 
+    // Button objects that track the first and last buttons clicked.
     private ButtonController firstClickedButton;
     private ButtonController lastClickedButton;
-    private int levelIndex;     // specify which level to set up
 
-    private Queue<IEnumerator> lineDrawQueue = new Queue<IEnumerator>();
-    private bool isLineBeingDrawn = false;
+    private int levelIndex;     // Index for the current level.
+
+    private Queue<IEnumerator> lineDrawQueue = new Queue<IEnumerator>(); // Queue to hold all lines drawn during the game.
+    private bool isLineBeingDrawn = false;  // Flag to track if a line is currently being drawn.
     public GameObject linePrefab;
 
     public LevelCompleteScreen LevelCompleteScreen;
 
 
-    // public accessor for other scripts to know the current expected number
+    // Property to track the current expected number.
     public int CurrentExpectedNumber { get; private set; } = 1;
 
     void Start()
     {
         levelIndex = LevelSelector.selectedLevel-1;
         LoadLevelData();
-        SetupLevel(); // To set up the first level, for instance
+        SetupLevel();
     }
 
     void LoadLevelData()
@@ -59,6 +63,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // SetupLevel method sets up a new level based on loaded level data.
     void SetupLevel()
     {
         LevelData levelData = levelDataWrapper.levels[levelIndex];
@@ -71,7 +76,7 @@ public class GameController : MonoBehaviour
         int totalButtons = levelData.level_data.Length / 2;
 
         // We'll restrict the x and y values to be within 2% of the screen size from the edges
-        float marginPercent = 0.02f;
+        float marginPercent = 0.05f;
 
         for (int i = totalButtons - 1; i >= 0; i--)
         {
@@ -91,7 +96,7 @@ public class GameController : MonoBehaviour
     }
 
 
-
+    // ButtonClickedCorrectly method handles the action when a button is clicked in the correct order.
     public void ButtonClickedCorrectly(ButtonController buttonController)
     {
         if (CurrentExpectedNumber == 1) // After the first button has been clicked and CurrentExpectedNumber incremented
@@ -122,7 +127,7 @@ public class GameController : MonoBehaviour
         }
 
         buttonController.MoveToBack();
-        // Remember this button as the last clicked button.
+        
         lastClickedButton = buttonController;
 
     }
@@ -136,15 +141,10 @@ public class GameController : MonoBehaviour
 
         // Instantiate a new Line object from the Line prefab.
         GameObject lineObject = Instantiate(linePrefab);
-        lineObject.name = "Line"; // Name the instantiated object
+        lineObject.name = "Line";
 
-        // Fetch lineRenderer from the instantiated Line object.
         LineRenderer lineRenderer = lineObject.GetComponent<LineRenderer>();
-
-        // Ensure the texture mode is set to Tile
         lineRenderer.textureMode = LineTextureMode.Tile;
-
-        // Set initial position of lineRenderer
         lineRenderer.SetPosition(0, buttonA.transform.position);
 
         // Animate the line drawing from start to end.

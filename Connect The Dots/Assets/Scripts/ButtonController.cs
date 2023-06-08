@@ -31,7 +31,7 @@ public class ButtonController : MonoBehaviour
     {
         button.onClick.AddListener(HandleClick);
         buttonImage.sprite = originalButtonSprite;
-        buttonText.raycastTarget = false; // Add this line
+        buttonText.raycastTarget = false;
     }
 
     void HandleClick()
